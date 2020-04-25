@@ -9,7 +9,7 @@ int result = 0;
 
 void swap(CARD **x, CARD **y) 
 { 
-    CARD** temp = *x; 
+    CARD** temp = *x; //Swap the two indices for sort function
     *x = *y; 
     *y = temp; 
 } 
@@ -29,12 +29,14 @@ void WriteToFiles(CARD** pointers_to_cards, int cardCounter){
 
 	for (int index=0; index < cardCounter; index++) {
 
-		char* name = pointers_to_cards[index]->name;
-		int name_length = strlen(name) + 1;
+		//WRITE TO INDEX FILE	
+		
+		char* name = pointers_to_cards[index]->name;	//Get the name	
+		int name_length = strlen(name) + 1;		//Get the length of name + 1 for the null termintator
 
-		fwrite(&name_length,sizeof(int),1,index_file);
-		fwrite(name,name_length,1,index_file);
-		fwrite(&offset, sizeof(int),1,index_file);
+		fwrite(&name_length,sizeof(int),1,index_file);	//Write the length of name
+		fwrite(name,name_length,1,index_file);		//Write the name
+		fwrite(&offset, sizeof(int),1,index_file);	//Write the offset
 
 		//WRTIE TO CARD FILE
 
@@ -44,47 +46,47 @@ void WriteToFiles(CARD** pointers_to_cards, int cardCounter){
 		char* type = pointers_to_cards[index]->type;
 		char* text = pointers_to_cards[index]->text;
 		char* stats = pointers_to_cards[index]->stats;
-		int rarity = pointers_to_cards[index]->rarity;
+		int rarity = pointers_to_cards[index]->rarity;	//Get all the fields
 
-		fwrite(&id,sizeof(int),1,cards_file);
-		offset = offset + sizeof(int);
+		fwrite(&id,sizeof(int),1,cards_file);		//Write the id
+		offset = offset + sizeof(int);			//Increase offset by size of INT
 
-		int length = strlen(name) + 1;
-		fwrite(&length,sizeof(int),1,cards_file);
-		fwrite(name,length,1,cards_file);
-		offset = offset + sizeof(int);
-		offset = offset + length;
+		int length = strlen(name) + 1;			//Get length of name
+		fwrite(&length,sizeof(int),1,cards_file);	//Write the length
+		fwrite(name,length,1,cards_file);		//Write the name
+		offset = offset + sizeof(int);			//Increase offset by size of INT
+		offset = offset + length;			//Increase offset by length
 		
-		length = strlen(cost) + 1;
-		fwrite(&length,sizeof(int),1,cards_file);
-		fwrite(cost,length,1,cards_file);
-		offset = offset + sizeof(int);
-		offset = offset + length;
+		length = strlen(cost) + 1;			//Get length of cost
+		fwrite(&length,sizeof(int),1,cards_file);	//Write the length
+		fwrite(cost,length,1,cards_file);		//Write the cost
+		offset = offset + sizeof(int);			//Increase offset by size of INT
+		offset = offset + length;			//Increase offset by length
 
-		fwrite(&converted_cost,sizeof(int),1,cards_file);
-		offset = offset + sizeof(int);
+		fwrite(&converted_cost,sizeof(int),1,cards_file);	//Write converted cost
+		offset = offset + sizeof(int);				//Increase offset by size of INT
 	
-		length = strlen(type) + 1;
-		fwrite(&length,sizeof(int),1,cards_file);
-		fwrite(type,length,1,cards_file);
-		offset = offset + sizeof(int);
-		offset = offset + length;
+		length = strlen(type) + 1;			//Get length of type
+		fwrite(&length,sizeof(int),1,cards_file);	//Write the length
+		fwrite(type,length,1,cards_file);		//Write the type
+		offset = offset + sizeof(int);			//Increase offset by size of INT
+		offset = offset + length;			//Increase offset by the length
+		
+		length = strlen(text) + 1;			//Get the length
+		fwrite(&length,sizeof(int),1,cards_file);	//Write the length
+		fwrite(text,length,1,cards_file);		//Write the text
+		offset = offset + sizeof(int);			//Increase offset by size of INT
+		offset = offset + length;			//Increase offset by the length
 
-		length = strlen(text) + 1;
-		fwrite(&length,sizeof(int),1,cards_file);
-		fwrite(text,length,1,cards_file);
-		offset = offset + sizeof(int);
-		offset = offset + length;
-
-		length = strlen(stats) + 1;
-		fwrite(&length,sizeof(int),1,cards_file);
-		fwrite(stats,length,1,cards_file);
-		offset = offset + sizeof(int);
-		offset = offset + length;
+		length = strlen(stats) + 1;			//Get length of stats
+		fwrite(&length,sizeof(int),1,cards_file);	//Write the length
+		fwrite(stats,length,1,cards_file);		//Write the stats
+		offset = offset + sizeof(int);			//Increase offset by size of INT
+		offset = offset + length;			//Increase offset by the length
 		
 		
-		fwrite(&rarity,sizeof(int),1,cards_file);
-		offset = offset + sizeof(int);
+		fwrite(&rarity,sizeof(int),1,cards_file);	//Write the rarity
+		offset = offset + sizeof(int);			//Increase offset by size of INT
 	
 	}
 
